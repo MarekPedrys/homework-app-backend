@@ -12,6 +12,7 @@ import pl.marekpedrys.homework.data.enums.MathProblemLevel;
 import pl.marekpedrys.homework.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.homework.data.repositories.MathProblemRepository;
 import pl.marekpedrys.homework.data.specifications.MathProblemSpecification;
+import pl.marekpedrys.homework.web.models.CreateMathProblemRequest;
 import pl.marekpedrys.homework.web.models.MathProblemResponseForTeacher;
 
 import java.util.List;
@@ -40,4 +41,7 @@ public class MathProblemService {
                 .toList();
     }
 
+    public MathProblemResponseForTeacher create(CreateMathProblemRequest request) {
+        return new MathProblemResponseForTeacher(mathProblemRepository.save(request.toEntity()));
+    }
 }
