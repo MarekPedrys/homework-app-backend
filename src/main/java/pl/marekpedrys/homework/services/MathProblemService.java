@@ -12,10 +12,14 @@ import pl.marekpedrys.homework.data.enums.MathProblemLevel;
 import pl.marekpedrys.homework.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.homework.data.repositories.MathProblemRepository;
 import pl.marekpedrys.homework.data.specifications.MathProblemSpecification;
+import pl.marekpedrys.homework.utils.MathProblemMapper;
 import pl.marekpedrys.homework.web.models.CreateMathProblemRequest;
 import pl.marekpedrys.homework.web.models.MathProblemResponseForTeacher;
 
 import java.util.List;
+
+import static pl.marekpedrys.homework.utils.MathProblemMapper.mapToEntity;
+import static pl.marekpedrys.homework.utils.MathProblemMapper.mapToResponseForTeacher;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +41,12 @@ public class MathProblemService {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         Page<MathProblemEntity> pageOfEntities = mathProblemRepository.findAll(specification, pageRequest);
         return pageOfEntities.getContent().stream()
-                .map(MathProblemResponseForTeacher::new)
+                .map(MathProblemMapper::mapToResponseForTeacher)
                 .toList();
     }
 
     public MathProblemResponseForTeacher create(CreateMathProblemRequest request) {
-        return new MathProblemResponseForTeacher(mathProblemRepository.save(request.toEntity()));
+        MathProblemEntity savedEntity = mathProblemRepository.save(mapToEntity(request));
+        return mapToResponseForTeacher(savedEntity);
     }
 }
