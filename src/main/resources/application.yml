@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: mathematical-problems
+  datasource:
+    url: 'jdbc:postgresql://${db.host}:${db.port}/${db.name}'
+    username: '${db.user}'
+    password: '${db.pass}'
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      show-sql: true
