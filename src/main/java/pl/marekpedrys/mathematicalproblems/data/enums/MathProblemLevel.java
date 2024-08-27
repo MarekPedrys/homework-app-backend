@@ -9,5 +9,5 @@ public enum MathProblemLevel {
     BASIC("podstawowy"),
     ADVANCED("rozszerzony");
 
-    private String label;
+    private final String label;
 }
