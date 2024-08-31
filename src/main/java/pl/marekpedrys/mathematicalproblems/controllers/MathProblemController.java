@@ -55,4 +55,9 @@ public class MathProblemController {
         return "redirect:/math-problems/list";
     }
 
+    @GetMapping("/math-problems/stats")
+    public String getStats(){
+        return "stats";
+    }
+
 }
