@@ -2,10 +2,13 @@ package pl.marekpedrys.mathematicalproblems.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.marekpedrys.mathematicalproblems.data.entities.MathProblem;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
@@ -58,6 +61,23 @@ public class MathProblemController {
     @GetMapping("/math-problems/stats")
     public String getStats(){
         return "stats";
+    }
+
+    @GetMapping("/math-problems/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String create(Model model) {
+        model.addAttribute("newMathProblem", new MathProblem());
+        model.addAttribute("yearOfStudyListAtt", MathProblemYearOfStudy.values());
+        model.addAttribute("levelListAtt", MathProblemLevel.values());
+        model.addAttribute("departmentListAtt", MathProblemDepartment.values());
+        model.addAttribute("pointsListAtt", List.of(1, 2, 3, 4, 5, 6));
+        return "create";
+    }
+
+    @PostMapping("/math-problems/create")
+    public String createAction(MathProblem newMathProblem, Model model) {
+        service.create(newMathProblem);
+        return "redirect:/math-problems/list";
     }
 
 }

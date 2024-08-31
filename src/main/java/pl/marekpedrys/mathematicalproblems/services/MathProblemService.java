@@ -33,4 +33,8 @@ public class MathProblemService {
         return repository.findAll(specification, pageRequest);
     }
 
+    public void create(MathProblem newMathProblem) {
+        repository.save(newMathProblem);
+    }
+
 }
