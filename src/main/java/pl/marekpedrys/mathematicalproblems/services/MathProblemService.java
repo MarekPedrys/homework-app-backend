@@ -6,12 +6,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.marekpedrys.mathematicalproblems.data.entities.MathProblem;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.mathematicalproblems.data.repositories.MathProblemRepository;
 import pl.marekpedrys.mathematicalproblems.data.specifications.MathProblemSpecification;
+
+import java.io.IOException;
 
 
 @Service
@@ -33,7 +36,12 @@ public class MathProblemService {
         return repository.findAll(specification, pageRequest);
     }
 
-    public void create(MathProblem newMathProblem) {
+    public void create(MathProblem newMathProblem, MultipartFile file) {
+        try {
+            newMathProblem.setImageData(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         repository.save(newMathProblem);
     }
 

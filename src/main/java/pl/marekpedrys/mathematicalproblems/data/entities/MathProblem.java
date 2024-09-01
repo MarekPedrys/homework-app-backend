@@ -1,12 +1,14 @@
 package pl.marekpedrys.mathematicalproblems.data.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemYearOfStudy;
+
+import java.util.Base64;
 
 @Entity
 @Getter
@@ -18,24 +20,26 @@ public class MathProblem {
     @GeneratedValue
     private Long id;
     @Enumerated(EnumType.STRING)
-    private MathProblemYearOfStudy yearOfStudy;
-    @Enumerated(EnumType.STRING)
-    private MathProblemLevel level;
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private MathProblemDepartment department;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private MathProblemLevel level;
+    @NotNull
     private Integer points;
-    private String content;
+    @Lob
+    @NotNull
+    private byte[] imageData;
 
-    public MathProblem(MathProblemYearOfStudy yearOfStudy,
-                       MathProblemLevel level,
-                       MathProblemDepartment department,
-                       Integer points,
-                       String content) {
-        this.yearOfStudy = yearOfStudy;
-        this.level = level;
+    public MathProblem(MathProblemDepartment department, MathProblemLevel level, Integer points, byte[] imageData) {
         this.department = department;
+        this.level = level;
         this.points = points;
-        this.content = content;
+        this.imageData = imageData;
+    }
+
+    public String generateBase64Image() {
+        return Base64.getEncoder().encodeToString(this.getImageData());
     }
 
 }
