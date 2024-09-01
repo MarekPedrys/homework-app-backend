@@ -107,52 +107,46 @@
 <div class="card shadow p-3 mb-5 bg-white rounded mx-auto" style="width: 90%">
 
     <a th:href="@{/math-problems/create}">
-        <button type="button" class="btn btn-primary">
-            <i class="bi bi-plus-circle pb-5"></i> Dodaj
+        <button type="button" class="btn btn-primary mb-3">
+            <i class="bi bi-plus-circle"></i> Dodaj
         </button>
     </a>
 
-    <table class="table table-sm table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Klasa</th>
-            <th>Poziom</th>
-            <th>Dział</th>
-            <th>Punkty</th>
-            <th>Treść</th>
-            <th>Akcje</th>
-        </tr>
-        </thead>
+    <table class="table table-sm table-borderless">
         <tbody>
-        <tr th:each="mathProblem:${mathProblemListAtt}">
-            <td>
-                <span th:text="${mathProblem.getId()}"></span>
-            </td>
-            <td>
-                <span th:text="${mathProblem.getYearOfStudy()} != null ? ${mathProblem.getYearOfStudy().getLabel()} : null"></span>
-            </td>
-            <td>
-                <span th:text="${mathProblem.getLevel()} != null ? ${mathProblem.getLevel().getLabel()} : null"></span>
-            </td>
-            <td>
-                <span th:text="${mathProblem.getDepartment()} != null ? ${mathProblem.getDepartment().getLabel()} : null"></span>
-            </td>
-            <td>
-                <span th:text="${mathProblem.getPoints()}"></span>
-            </td>
-            <td>
-                <span th:text="${mathProblem.getContent()}"></span>
-            </td>
+        <div th:each="mathProblem:${mathProblemListAtt}">
+            <tr class="table-primary">
+                <th>Dział</th>
+                <th>Poziom</th>
+                <th>Punkty</th>
+                <th>Akcje</th>
+            </tr>
 
-            <td>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i> Edytuj</button>
-                    <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Usuń</button>
-                </div>
-            </td>
+            <tr class="table-primary">
+                <td>
+                    <span th:text="${mathProblem.getDepartment()} != null ? ${mathProblem.getDepartment().getLabel()} : null"></span>
+                </td>
+                <td>
+                    <span th:text="${mathProblem.getLevel()} != null ? ${mathProblem.getLevel().getLabel()} : null"></span>
+                </td>
+                <td>
+                    <span th:text="${mathProblem.getPoints()}"></span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i> Edytuj</button>
+                        <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Usuń</button>
+                    </div>
+                </td>
+            </tr>
 
-        </tr>
+            <tr>
+                <td colspan="4" class="pb-5">
+                    <img th:src="@{${'../images/' + mathProblem.getId() + '.png'}}" style="max-width: 100%">
+                </td>
+            </tr>
+        </div>
+
         </tbody>
     </table>
 
@@ -175,6 +169,7 @@
         </ul>
     </nav>
 </div>
+
 
 </body>
 </html>
