@@ -36,14 +36,8 @@
 <div class="card shadow p-3 mb-5 bg-white rounded mx-auto" style="max-width: 32rem">
     <form class="fw-bold" method="GET" th:action="@{/math-problems/list}">
         <div class="row mx-auto">
+
             <div class="col-md-4">
-
-                <div class="form-group">
-                    <label for="id">Id: </label>
-                    <input id="id" class="form-control" name="id" type="number" th:value="${idAtt}">
-                </div>
-                <br>
-
                 <div class="form-group">
                     <label>Dział: </label>
                     <select class="form-control" name="department">
@@ -51,29 +45,6 @@
                         <option th:each="department : ${departmentListAtt}"
                                 th:selected="${department.equals(departmentAtt)}"
                                 th:value="${department}" th:text="${department.getLabel()}"></option>
-                    </select>
-                </div>
-                <br>
-
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Klasa:</label>
-                    <select class="form-control" name="yearOfStudy">
-                        <option value=""></option>
-                        <option th:each="year : ${yearOfStudyListAtt}" th:selected="${year.equals(yearOfStudyAtt)}"
-                                th:value="${year}" th:text="${year.getLabel()}"></option>
-                    </select>
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label>Punkty: </label>
-                    <select class="form-control" name="points">
-                        <option value=""></option>
-                        <option th:each="points : ${pointsListAtt}" th:selected="${points.equals(pointsAtt)}"
-                                th:value="${points}" th:text="${points}"></option>
                     </select>
                 </div>
             </div>
@@ -86,10 +57,21 @@
                             th:value="${level}"
                             th:text="${level.getLabel()}"></option>
                 </select>
-                <br>
-
             </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Punkty: </label>
+                    <select class="form-control" name="points">
+                        <option value=""></option>
+                        <option th:each="points : ${pointsListAtt}" th:selected="${points.equals(pointsAtt)}"
+                                th:value="${points}" th:text="${points}"></option>
+                    </select>
+                </div>
+            </div>
+
         </div>
+
         <br>
         <div class="row">
             <div class="col-md-8">
@@ -142,7 +124,8 @@
 
             <tr>
                 <td colspan="4" class="pb-5">
-                    <img th:src="@{'data:image/png;base64,'+ ${mathProblem.generateBase64Image()}}" style="max-width: 100%">
+                    <img th:src="@{'data:image/png;base64,'+ ${mathProblem.generateBase64Image()}}"
+                         style="max-width: 100%">
                 </td>
             </tr>
         </div>

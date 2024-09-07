@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.marekpedrys.mathematicalproblems.data.entities.MathProblem;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.mathematicalproblems.data.repositories.MathProblemRepository;
 import pl.marekpedrys.mathematicalproblems.data.specifications.MathProblemSpecification;
 
@@ -25,13 +24,11 @@ public class MathProblemService {
     public static final String SORT_COLUMN = "id";
     public static final Sort.Direction SORT_DIRECTION = Sort.Direction.DESC;
 
-    public Page<MathProblem> findAllBySpecificationAndPage(Long id,
-                                                           MathProblemYearOfStudy yearOfStudy,
+    public Page<MathProblem> findAllBySpecificationAndPage(MathProblemDepartment department,
                                                            MathProblemLevel level,
-                                                           MathProblemDepartment department,
                                                            Integer points,
                                                            Integer pageNumber) {
-        Specification<MathProblem> specification = MathProblemSpecification.of(id, yearOfStudy, level, department, points);
+        Specification<MathProblem> specification = MathProblemSpecification.of(department, level, points);
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE, Sort.by(SORT_DIRECTION, SORT_COLUMN));
         return repository.findAll(specification, pageRequest);
     }

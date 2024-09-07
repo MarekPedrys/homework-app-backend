@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.marekpedrys.mathematicalproblems.data.entities.MathProblem;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.mathematicalproblems.services.MathProblemService;
 
 import java.util.List;
@@ -27,14 +26,12 @@ public class MathProblemController {
     private final MathProblemService service;
 
     @GetMapping("/math-problems/list")
-    public String findAllBySpecificationAndPage(@RequestParam(required = false) Long id,
-                                                @RequestParam(required = false) MathProblemYearOfStudy yearOfStudy,
+    public String findAllBySpecificationAndPage(@RequestParam(required = false) MathProblemDepartment department,
                                                 @RequestParam(required = false) MathProblemLevel level,
-                                                @RequestParam(required = false) MathProblemDepartment department,
                                                 @RequestParam(required = false) Integer points,
                                                 @RequestParam(required = false, defaultValue = "0") Integer pageNumber,
                                                 Model model) {
-        Page<MathProblem> page = service.findAllBySpecificationAndPage(id, yearOfStudy, level, department, points, pageNumber);
+        Page<MathProblem> page = service.findAllBySpecificationAndPage(department, level, points, pageNumber);
         model.addAttribute("mathProblemListAtt", page.getContent());
         model.addAttribute("pageNumberAtt", pageNumber);
         model.addAttribute("totalPagesAtt", page.getTotalPages());
@@ -42,9 +39,6 @@ public class MathProblemController {
                 .boxed()
                 .collect(Collectors.toList());
         model.addAttribute("pageNumbersAtt", pageNumbers);
-        model.addAttribute("idAtt", id);
-        model.addAttribute("yearOfStudyAtt", yearOfStudy);
-        model.addAttribute("yearOfStudyListAtt", MathProblemYearOfStudy.values());
         model.addAttribute("levelAtt", level);
         model.addAttribute("levelListAtt", MathProblemLevel.values());
         model.addAttribute("departmentAtt", department);
@@ -68,7 +62,6 @@ public class MathProblemController {
     @ResponseStatus(HttpStatus.CREATED)
     public String create(Model model) {
         model.addAttribute("newMathProblem", new MathProblem());
-        model.addAttribute("yearOfStudyListAtt", MathProblemYearOfStudy.values());
         model.addAttribute("levelListAtt", MathProblemLevel.values());
         model.addAttribute("departmentListAtt", MathProblemDepartment.values());
         model.addAttribute("pointsListAtt", List.of(1, 2, 3, 4, 5, 6));
