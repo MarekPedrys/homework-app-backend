@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import pl.marekpedrys.mathematicalproblems.data.entities.MathProblem;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
-import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemYearOfStudy;
 import pl.marekpedrys.mathematicalproblems.data.repositories.MathProblemRepository;
 
 
