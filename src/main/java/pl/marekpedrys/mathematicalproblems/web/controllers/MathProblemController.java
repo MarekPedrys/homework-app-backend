@@ -45,16 +45,6 @@ public class MathProblemController {
         return "list";
     }
 
-    @GetMapping
-    public String redirect() {
-        return "redirect:/math-problems/list";
-    }
-
-    @GetMapping("/math-problems/stats")
-    public String getStats() {
-        return "stats";
-    }
-
     @GetMapping("/math-problems/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String create(Model model) {
@@ -74,6 +64,11 @@ public class MathProblemController {
     @GetMapping("/math-problems/{id}/delete")
     public String deleteAction(@PathVariable Long id) {
         service.delete(id);
+        return "redirect:/math-problems/list";
+    }
+
+    @GetMapping
+    public String redirect() {
         return "redirect:/math-problems/list";
     }
 
