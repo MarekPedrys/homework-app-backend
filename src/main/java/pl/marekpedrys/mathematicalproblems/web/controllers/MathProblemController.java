@@ -1,4 +1,4 @@
-package pl.marekpedrys.mathematicalproblems.controllers;
+package pl.marekpedrys.mathematicalproblems.web.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

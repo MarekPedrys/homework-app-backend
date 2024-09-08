@@ -1,6 +1,7 @@
 package pl.marekpedrys.mathematicalproblems.services;
 
 import lombok.AllArgsConstructor;
+import org.apache.tika.Tika;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,6 +13,8 @@ import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemDepartment;
 import pl.marekpedrys.mathematicalproblems.data.enums.MathProblemLevel;
 import pl.marekpedrys.mathematicalproblems.data.repositories.MathProblemRepository;
 import pl.marekpedrys.mathematicalproblems.data.specifications.MathProblemSpecification;
+import pl.marekpedrys.mathematicalproblems.web.errors.ImageSavingError;
+import pl.marekpedrys.mathematicalproblems.web.errors.ImageTypeError;
 
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ public class MathProblemService {
     public static final int PAGE_SIZE = 5;
     public static final String SORT_COLUMN = "id";
     public static final Sort.Direction SORT_DIRECTION = Sort.Direction.DESC;
+    public static final String EXPECTED_MIME_TYPE = "image/png";
 
     public Page<MathProblem> findAllBySpecificationAndPage(MathProblemDepartment department,
                                                            MathProblemLevel level,
@@ -34,12 +38,26 @@ public class MathProblemService {
     }
 
     public void create(MathProblem newMathProblem, MultipartFile file) {
-        try {
-            newMathProblem.setImageData(file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (isFileTypeValid(file)) {
+            try {
+                newMathProblem.setImageData(file.getBytes());
+            } catch (IOException e) {
+                throw new ImageSavingError();
+            }
+            repository.save(newMathProblem);
+        } else {
+            throw new ImageTypeError();
         }
-        repository.save(newMathProblem);
+    }
+
+    private boolean isFileTypeValid(MultipartFile file) {
+        try {
+            Tika tika = new Tika();
+            String fileMimeType = tika.detect(file.getInputStream());
+            return fileMimeType.equals(EXPECTED_MIME_TYPE);
+        } catch (IOException e) {
+            throw new ImageSavingError();
+        }
     }
 
 }
