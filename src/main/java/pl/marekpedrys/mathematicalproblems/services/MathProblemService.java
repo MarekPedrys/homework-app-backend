@@ -50,6 +50,10 @@ public class MathProblemService {
         }
     }
 
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
     private boolean isFileTypeValid(MultipartFile file) {
         try {
             Tika tika = new Tika();

@@ -115,7 +115,9 @@
                     <span th:text="${mathProblem.getPoints()}"></span>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Usuń</button>
+                    <a th:href="@{'/math-problems/' + ${mathProblem.getId()} + '/delete'}">
+                        <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Usuń</button>
+                    </a>
                 </td>
             </tr>
 
