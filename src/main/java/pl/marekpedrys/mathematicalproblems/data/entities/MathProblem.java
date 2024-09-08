@@ -17,7 +17,7 @@ import java.util.Base64;
 public class MathProblem {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -30,13 +30,6 @@ public class MathProblem {
     @Lob
     @NotNull
     private byte[] imageData;
-
-    public MathProblem(MathProblemDepartment department, MathProblemLevel level, Integer points, byte[] imageData) {
-        this.department = department;
-        this.level = level;
-        this.points = points;
-        this.imageData = imageData;
-    }
 
     public String generateBase64Image() {
         return Base64.getEncoder().encodeToString(this.getImageData());
